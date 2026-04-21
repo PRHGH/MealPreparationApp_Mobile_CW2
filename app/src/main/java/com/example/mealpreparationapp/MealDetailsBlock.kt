@@ -1,59 +1,174 @@
 package com.example.mealpreparationapp
 
-
-import androidx.compose.material3.Text
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.mealpreparationapp.model.Meal
 
 @Composable
 fun MealDetailsBlock(meal: Meal) {
-    Text("\"Meal\":\"${meal.strMeal ?: "null"}\",")
-    Text("\"DrinkAlternate\":\"${meal.strDrinkAlternate ?: "null"}\",")
-    Text("\"Category\":\"${meal.strCategory ?: "null"}\",")
-    Text("\"Area\":\"${meal.strArea ?: "null"}\",")
-    Text("\"Instructions\":\"${meal.strInstructions ?: "null"}\",")
-    Text("\"Tags\":\"${meal.strTags ?: "null"}\",")
-    Text("\"Youtube\":\"${meal.strYoutube ?: "null"}\",")
+    val context = LocalContext.current
 
-    Text("\"Ingredient1\":\"${meal.strIngredient1 ?: ""}\",")
-    Text("\"Ingredient2\":\"${meal.strIngredient2 ?: ""}\",")
-    Text("\"Ingredient3\":\"${meal.strIngredient3 ?: ""}\",")
-    Text("\"Ingredient4\":\"${meal.strIngredient4 ?: ""}\",")
-    Text("\"Ingredient5\":\"${meal.strIngredient5 ?: ""}\",")
-    Text("\"Ingredient6\":\"${meal.strIngredient6 ?: ""}\",")
-    Text("\"Ingredient7\":\"${meal.strIngredient7 ?: ""}\",")
-    Text("\"Ingredient8\":\"${meal.strIngredient8 ?: ""}\",")
-    Text("\"Ingredient9\":\"${meal.strIngredient9 ?: ""}\",")
-    Text("\"Ingredient10\":\"${meal.strIngredient10 ?: ""}\",")
-    Text("\"Ingredient11\":\"${meal.strIngredient11 ?: ""}\",")
-    Text("\"Ingredient12\":\"${meal.strIngredient12 ?: ""}\",")
-    Text("\"Ingredient13\":\"${meal.strIngredient13 ?: ""}\",")
-    Text("\"Ingredient14\":\"${meal.strIngredient14 ?: ""}\",")
-    Text("\"Ingredient15\":\"${meal.strIngredient15 ?: ""}\",")
-    Text("\"Ingredient16\":\"${meal.strIngredient16 ?: ""}\",")
-    Text("\"Ingredient17\":\"${meal.strIngredient17 ?: ""}\",")
-    Text("\"Ingredient18\":\"${meal.strIngredient18 ?: ""}\",")
-    Text("\"Ingredient19\":\"${meal.strIngredient19 ?: ""}\",")
-    Text("\"Ingredient20\":\"${meal.strIngredient20 ?: ""}\",")
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+    ) {
+        Column {
+            // Image Placeholder (No Coil dependency)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)
+                    .background(Color(0xFFE2E8F0)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.globe),
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp),
+                    tint = Color(0xFF94A3B8)
+                )
+            }
 
-    Text("\"Measure1\":\"${meal.strMeasure1 ?: ""}\",")
-    Text("\"Measure2\":\"${meal.strMeasure2 ?: ""}\",")
-    Text("\"Measure3\":\"${meal.strMeasure3 ?: ""}\",")
-    Text("\"Measure4\":\"${meal.strMeasure4 ?: ""}\",")
-    Text("\"Measure5\":\"${meal.strMeasure5 ?: ""}\",")
-    Text("\"Measure6\":\"${meal.strMeasure6 ?: ""}\",")
-    Text("\"Measure7\":\"${meal.strMeasure7 ?: ""}\",")
-    Text("\"Measure8\":\"${meal.strMeasure8 ?: ""}\",")
-    Text("\"Measure9\":\"${meal.strMeasure9 ?: ""}\",")
-    Text("\"Measure10\":\"${meal.strMeasure10 ?: ""}\",")
-    Text("\"Measure11\":\"${meal.strMeasure11 ?: ""}\",")
-    Text("\"Measure12\":\"${meal.strMeasure12 ?: ""}\",")
-    Text("\"Measure13\":\"${meal.strMeasure13 ?: ""}\",")
-    Text("\"Measure14\":\"${meal.strMeasure14 ?: ""}\",")
-    Text("\"Measure15\":\"${meal.strMeasure15 ?: ""}\",")
-    Text("\"Measure16\":\"${meal.strMeasure16 ?: ""}\",")
-    Text("\"Measure17\":\"${meal.strMeasure17 ?: ""}\",")
-    Text("\"Measure18\":\"${meal.strMeasure18 ?: ""}\",")
-    Text("\"Measure19\":\"${meal.strMeasure19 ?: ""}\",")
-    Text("\"Measure20\":\"${meal.strMeasure20 ?: ""}\"")
+            Column(modifier = Modifier.padding(20.dp)) {
+                // Title
+                Text(
+                    text = meal.strMeal ?: "Unknown Meal",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1E293B)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Tags
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    MealTag(meal.strCategory ?: "Meal")
+                    MealTag(meal.strArea ?: "General")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Instructions
+                Text(
+                    text = "Instructions",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF475569)
+                )
+                Text(
+                    text = meal.strInstructions ?: "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color(0xFF64748B),
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Ingredients Table
+                Text(
+                    text = "Ingredients",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF475569)
+                )
+                
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val ingredients = getAllIngredients(meal)
+                ingredients.forEach { (name, measure) ->
+                    IngredientItem(name, measure)
+                }
+
+                // YouTube Button
+                if (!meal.strYoutube.isNullOrBlank()) {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Button(
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(meal.strYoutube))
+                            context.startActivity(intent)
+                        },
+                        modifier = Modifier.fillMaxWidth().height(48.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF2D37))
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(painterResource(id = R.drawable.globe), null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(8.dp))
+                            Text("Watch on YouTube", fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MealTag(text: String) {
+    Surface(
+        color = Color(0xFFF1F5F9),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+            style = MaterialTheme.typography.labelSmall,
+            color = Color(0xFF475569)
+        )
+    }
+}
+
+@Composable
+fun IngredientItem(name: String, measure: String) {
+    Surface(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
+        color = Color(0xFFF8FAFC),
+        shape = RoundedCornerShape(6.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(name, style = MaterialTheme.typography.bodySmall, color = Color(0xFF334155))
+            Text(measure, style = MaterialTheme.typography.bodySmall, color = Color(0xFF64748B), fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+fun getAllIngredients(meal: Meal): List<Pair<String, String>> {
+    val ingredients = mutableListOf<Pair<String, String>>()
+    val fields = meal::class.java.declaredFields
+    for (i in 1..20) {
+        try {
+            val ingField = meal::class.java.getDeclaredField("strIngredient$i")
+            val meaField = meal::class.java.getDeclaredField("strMeasure$i")
+            ingField.isAccessible = true
+            meaField.isAccessible = true
+            val ing = ingField.get(meal) as? String
+            val mea = meaField.get(meal) as? String
+            if (!ing.isNullOrBlank()) {
+                ingredients.add(ing to (mea ?: ""))
+            }
+        } catch (e: Exception) {}
+    }
+    return ingredients
 }
