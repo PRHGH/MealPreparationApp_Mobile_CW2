@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MealPreparationApp</string>
+    <string name="title_activity_add_meals_screen">AddMealsScreen</string>
+    <string name="title_activity_meal_details_block">MealDetailsBlock</string>
+</resources>
