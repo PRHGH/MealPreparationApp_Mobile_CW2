@@ -1,25 +1,25 @@
 package com.example.mealpreparationapp
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+
 import com.example.mealpreparationapp.model.Meal
 import kotlinx.coroutines.launch
 
@@ -33,40 +33,77 @@ fun SearchMealsOnlineScreen(
         mutableStateOf(emptyList<Meal>())
     }
     val scope = rememberCoroutineScope()
+    val themeColor = Color(0xFF0288D1) // Sky Blue matching "Find Meals Online" button
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .background(Color(0xFFFDFCFB))
+            .padding(horizontal = 20.dp)
     ) {
-        Text("Search Meals Online")
+        // Header with Back Button
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 40.dp, bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Surface(
+                onClick = onBackClick,
+                modifier = Modifier.size(40.dp),
+                shape = RoundedCornerShape(10.dp),
+                color = Color.Transparent
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.back),
+                        contentDescription = "Back",
+                        modifier = Modifier.size(20.dp),
+                        tint = Color(0xFF3E2723)
+                    )
+                }
+            }
+            Text(
+                text = "Online Search",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color(0xFF3E2723),
+                modifier = Modifier.padding(start = 12.dp)
+            )
+        }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
+        // Search Input
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
-            label = { Text("Meal name") },
-            modifier = Modifier.fillMaxWidth()
+            placeholder = { Text("Search by name (e.g. Teriyaki, Pie...)") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedContainerColor = Color.White,
+                focusedContainerColor = Color.White,
+                unfocusedBorderColor = Color(0xFFE2E8F0)
+            ),
+            leadingIcon = {
+                Icon(painterResource(id = R.drawable.globe), null, modifier = Modifier.size(20.dp))
+            }
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(
+        // Search Button
+        ElevatedButton(
             onClick = {
                 scope.launch {
                     try {
                         val cleanQuery = query.trim()
-
                         if (cleanQuery.isEmpty()) {
                             results = emptyList()
                             statusMessage = "Please enter some text"
                         } else {
                             statusMessage = "Searching online..."
                             val foundMeals = MealApiService.searchMealsByName(cleanQuery)
-
                             results = foundMeals
-
                             statusMessage = if (foundMeals.isEmpty()) {
                                 "No meals found"
                             } else {
@@ -78,29 +115,42 @@ fun SearchMealsOnlineScreen(
                         statusMessage = "Error searching meals online"
                     }
                 }
-            }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.elevatedButtonColors(
+                containerColor = themeColor,
+                contentColor = Color.White
+            )
         ) {
-            Text("Search")
+            Icon(painterResource(id = R.drawable.search), null, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(8.dp))
+            Text("Find Meals", fontWeight = FontWeight.Bold)
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(statusMessage)
-        Spacer(modifier = Modifier.height(12.dp))
+        // Status Message
+        Text(
+            text = statusMessage,
+            style = MaterialTheme.typography.labelMedium,
+            color = Color(0xFF8D6E63),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+        )
 
+        // Results List
         Column(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             for (meal in results) {
                 MealDetailsBlock(meal)
-                Spacer(modifier = Modifier.height(20.dp))
             }
-        }
-
-        Button(onClick = onBackClick) {
-            Text("Back")
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
