@@ -54,7 +54,7 @@ fun HomeScreen(
     ) {
         // App Title
         Text(
-            text = "Meal Preparation",
+            text = "Meal API",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.ExtraBold,
             color = Color(0xFF3E2723), // Deep brown/coffee color
@@ -62,7 +62,7 @@ fun HomeScreen(
         )
         
         Text(
-            text = "Healthy eating, simplified.",
+            text = "Fetching recipes, simplified.",
             style = MaterialTheme.typography.bodyMedium,
             color = Color(0xFF8D6E63),
             textAlign = TextAlign.Center,
