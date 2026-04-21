@@ -15,7 +15,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.mealpreparationapp.model.Meal
 
 @Composable
@@ -31,21 +30,14 @@ fun MealDetailsBlock(meal: Meal) {
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
     ) {
         Column {
-            // Image Placeholder (No Coil dependency)
-            Box(
+            MealThumbnail(
+                imageUrl = meal.strMealThumb,
+                mealName = meal.strMeal,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
-                    .background(Color(0xFFE2E8F0)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.globe),
-                    contentDescription = null,
-                    modifier = Modifier.size(48.dp),
-                    tint = Color(0xFF94A3B8)
-                )
-            }
+                    .height(200.dp)
+                    .background(Color(0xFFE2E8F0))
+            )
 
             Column(modifier = Modifier.padding(20.dp)) {
                 // Title

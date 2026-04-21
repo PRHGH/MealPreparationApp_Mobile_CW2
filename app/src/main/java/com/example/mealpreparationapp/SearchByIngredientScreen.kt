@@ -121,7 +121,7 @@ fun SearchByIngredientScreen(
                 modifier = Modifier.weight(1f).height(50.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = Color(0xFF2D81FF),
+                    containerColor = Color(0xFFFF9800),
                     contentColor = Color.White
                 )
             ) {
@@ -150,7 +150,7 @@ fun SearchByIngredientScreen(
                 modifier = Modifier.weight(1f).height(50.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = Color(0xFF00C48C),
+                    containerColor = Color(0xFFF44336),
                     contentColor = Color.White
                 )
             ) {

@@ -2,7 +2,9 @@ package com.example.mealpreparationapp
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
@@ -31,7 +34,8 @@ private val ByteArraySaver = listSaver<ByteArray?, Int>(
 @Composable
 fun MealThumbnail(
     imageUrl: String?,
-    mealName: String?
+    mealName: String?,
+    modifier: Modifier = Modifier.size(80.dp)
 ) {
     var imageBytes by rememberSaveable(imageUrl, stateSaver = ByteArraySaver) {
         mutableStateOf<ByteArray?>(null)
@@ -66,19 +70,26 @@ fun MealThumbnail(
                 Image(
                     bitmap = bitmap.asImageBitmap(),
                     contentDescription = mealName ?: "Meal image",
-                    modifier = Modifier.size(80.dp)
+                    modifier = modifier,
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
                 )
             } else {
-                Text("No Image")
+                Box(modifier = modifier, contentAlignment = Alignment.Center) {
+                    Text("No Image")
+                }
             }
         }
 
         loadFailed -> {
-            Text("No Image")
+            Box(modifier = modifier, contentAlignment = Alignment.Center) {
+                Text("No Image")
+            }
         }
 
         else -> {
-            Text("Loading...")
+            Box(modifier = modifier, contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(modifier = Modifier.size(24.dp))
+            }
         }
     }
 }
