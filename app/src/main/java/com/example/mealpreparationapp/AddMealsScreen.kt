@@ -52,7 +52,7 @@ fun AddMealsScreen(
                 }
             }
         ) {
-            Text("Insert Hardcoded Meals")
+            Text("Add Meals to DB")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
