@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -112,8 +111,6 @@ fun AddMealsScreen(
             )
 
             Spacer(modifier = Modifier.height(48.dp))
-
-            // Main Action Button (Matching Home Screen style)
             ElevatedButton(
                 onClick = {
                     scope.launch {

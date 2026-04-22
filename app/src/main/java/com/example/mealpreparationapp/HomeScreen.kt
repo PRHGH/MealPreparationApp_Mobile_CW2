@@ -52,12 +52,12 @@ fun HomeScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // App Title
+
         Text(
             text = "Meal API",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.ExtraBold,
-            color = Color(0xFF3E2723), // Deep brown/coffee color
+            color = Color(0xFF3E2723),
             modifier = Modifier.padding(bottom = 8.dp)
         )
         
@@ -69,11 +69,10 @@ fun HomeScreen(
             modifier = Modifier.padding(bottom = 48.dp)
         )
 
-        // Action Buttons with Food-Inspired Palette
         MenuButton(
             text = "Add Meals to DB",
             icon = painterResource(id = R.drawable.plus),
-            backgroundColor = Color(0xFF4CAF50), // Fresh Green (Vegetables)
+            backgroundColor = Color(0xFF4CAF50),
             onClick = onAddMealsClick
         )
 
@@ -82,7 +81,7 @@ fun HomeScreen(
         MenuButton(
             text = "Search By Ingredient",
             icon = painterResource(id = R.drawable.search),
-            backgroundColor = Color(0xFFFF9800), // Carrot Orange (Cooking)
+            backgroundColor = Color(0xFFFF9800),
             onClick = onSearchByIngredientClick
         )
 
@@ -91,7 +90,7 @@ fun HomeScreen(
         MenuButton(
             text = "Browse Saved Meals",
             icon = painterResource(id = R.drawable.database),
-            backgroundColor = Color(0xFFE53935), // Tomato Red (Hearty meals)
+            backgroundColor = Color(0xFFE53935),
             onClick = onSearchMealsClick
         )
 
@@ -100,7 +99,7 @@ fun HomeScreen(
         MenuButton(
             text = "Find Meals Online",
             icon = painterResource(id = R.drawable.globe),
-            backgroundColor = Color(0xFF0288D1), // Sky Blue (Cloud/Global)
+            backgroundColor = Color(0xFF0288D1),
             onClick = onSearchMealsOnlineClick
         )
     }
@@ -134,7 +133,6 @@ fun MenuButton(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon Container with soft background
             Surface(
                 modifier = Modifier.size(54.dp),
                 shape = RoundedCornerShape(16.dp),

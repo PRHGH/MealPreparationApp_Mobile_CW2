@@ -3,9 +3,25 @@ package com.example.mealpreparationapp
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +56,6 @@ fun MealDetailsBlock(meal: Meal) {
             )
 
             Column(modifier = Modifier.padding(20.dp)) {
-                // Title
                 Text(
                     text = meal.strMeal ?: "Unknown Meal",
                     style = MaterialTheme.typography.titleLarge,
@@ -50,7 +65,6 @@ fun MealDetailsBlock(meal: Meal) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Tags
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     MealTag(meal.strCategory ?: "Meal")
                     MealTag(meal.strArea ?: "General")
@@ -58,7 +72,6 @@ fun MealDetailsBlock(meal: Meal) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Instructions
                 Text(
                     text = "Instructions",
                     style = MaterialTheme.typography.labelLarge,
@@ -75,7 +88,6 @@ fun MealDetailsBlock(meal: Meal) {
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Ingredients Table
                 Text(
                     text = "Ingredients",
                     style = MaterialTheme.typography.labelLarge,
@@ -90,7 +102,6 @@ fun MealDetailsBlock(meal: Meal) {
                     IngredientItem(name, measure)
                 }
 
-                // YouTube Button
                 if (!meal.strYoutube.isNullOrBlank()) {
                     Spacer(modifier = Modifier.height(24.dp))
                     Button(

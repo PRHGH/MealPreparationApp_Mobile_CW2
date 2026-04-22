@@ -1,11 +1,28 @@
 package com.example.mealpreparationapp
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +57,7 @@ fun SearchByIngredientScreen(
             .background(Color(0xFFFDFCFB))
             .padding(horizontal = 20.dp)
     ) {
-        // Header with Back Button
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,7 +88,6 @@ fun SearchByIngredientScreen(
             )
         }
 
-        // Search Input
         OutlinedTextField(
             value = ingredient,
             onValueChange = { ingredient = it },
@@ -90,14 +106,12 @@ fun SearchByIngredientScreen(
             }
         )
 
-        // Action Buttons Row
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Retrieve Button (Blue)
             ElevatedButton(
                 onClick = {
                     scope.launch {
@@ -130,7 +144,6 @@ fun SearchByIngredientScreen(
                 Text("Retrieve", fontWeight = FontWeight.Bold)
             }
 
-            // Save Button (Green)
             ElevatedButton(
                 onClick = {
                     scope.launch {
@@ -160,7 +173,6 @@ fun SearchByIngredientScreen(
             }
         }
 
-        // Status Message
         Text(
             text = statusMessage,
             style = MaterialTheme.typography.labelMedium,
@@ -169,7 +181,6 @@ fun SearchByIngredientScreen(
             modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
         )
 
-        // Results List
         Column(
             modifier = Modifier
                 .weight(1f)
