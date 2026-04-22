@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
@@ -23,6 +25,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,11 +37,79 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.example.mealpreparationapp.model.Meal
+import org.json.JSONObject
 
 @Composable
 fun MealDetailsBlock(meal: Meal) {
     val context = LocalContext.current
+    var showJsonDialog by remember { mutableStateOf(false) }
+
+    if (showJsonDialog) {
+        val jsonString = remember(meal) {
+            try {
+                val json = JSONObject()
+                json.put("idMeal", meal.idMeal)
+                json.put("strMeal", meal.strMeal)
+                json.put("strCategory", meal.strCategory)
+                json.put("strArea", meal.strArea)
+                json.put("strInstructions", meal.strInstructions)
+                json.put("strMealThumb", meal.strMealThumb)
+                json.put("strYoutube", meal.strYoutube)
+
+                // Add ingredients
+                val ingredients = getAllIngredients(meal)
+                ingredients.forEachIndexed { index, (name, measure) ->
+                    json.put("strIngredient${index + 1}", name)
+                    json.put("strMeasure${index + 1}", measure)
+                }
+
+                json.toString(4) // Indent for readability
+            } catch (e: Exception) {
+                "Error generating JSON"
+            }
+        }
+
+        Dialog(onDismissRequest = { showJsonDialog = false }) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp),
+                shape = RoundedCornerShape(16.dp),
+                color = Color.White
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "Meal JSON Data",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .background(Color(0xFFF1F5F9), RoundedCornerShape(8.dp))
+                            .padding(8.dp)
+                    ) {
+                        val scroll = rememberScrollState()
+                        Text(
+                            text = jsonString,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.verticalScroll(scroll)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(
+                        onClick = { showJsonDialog = false },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text("Close")
+                    }
+                }
+            }
+        }
+    }
 
     ElevatedCard(
         modifier = Modifier
@@ -46,14 +120,36 @@ fun MealDetailsBlock(meal: Meal) {
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
     ) {
         Column {
-            MealThumbnail(
-                imageUrl = meal.strMealThumb,
-                mealName = meal.strMeal,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(Color(0xFFE2E8F0))
-            )
+            Box {
+                MealThumbnail(
+                    imageUrl = meal.strMealThumb,
+                    mealName = meal.strMeal,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .background(Color(0xFFE2E8F0))
+                )
+
+                // Tiny JSON button
+                Surface(
+                    onClick = { showJsonDialog = true },
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .size(32.dp)
+                        .align(Alignment.TopEnd),
+                    shape = RoundedCornerShape(8.dp),
+                    color = Color.Black.copy(alpha = 0.4f)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                            contentDescription = "Show JSON",
+                            modifier = Modifier.size(20.dp),
+                            tint = Color.White
+                        )
+                    }
+                }
+            }
 
             Column(modifier = Modifier.padding(20.dp)) {
                 Text(
