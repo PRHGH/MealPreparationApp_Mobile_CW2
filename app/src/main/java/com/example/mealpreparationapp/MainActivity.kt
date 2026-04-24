@@ -1,5 +1,7 @@
 package com.example.mealpreparationapp
 
+// Demo Video Link: https://drive.google.com/file/d/14c5Wfoy8LsmV7Iv1dZKJipfbkIkQ90wA/view?usp=sharing
+
 // Activity recreated on rotation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
