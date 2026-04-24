@@ -1,7 +1,9 @@
 package com.example.mealpreparationapp
 
+// Mapper: Decouple UI models from Room
 import com.example.mealpreparationapp.model.Meal
 
+// Domain -> Entity: Room DB insert
 fun Meal.toEntity(): MealEntity {
     return MealEntity(
         idMeal = idMeal,
@@ -58,6 +60,7 @@ fun Meal.toEntity(): MealEntity {
     )
 }
 
+// Entity -> Domain: Room DB retrieve
 fun MealEntity.toMeal(): Meal {
     return Meal(
         idMeal = idMeal,

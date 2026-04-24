@@ -1,5 +1,6 @@
 package com.example.mealpreparationapp
 
+// Home Screen: UI Entry point
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +42,7 @@ fun HomeScreen(
     onSearchMealsClick: () -> Unit,
     onSearchMealsOnlineClick: () -> Unit
 ) {
+    // Scrollable layout for small screens
     val scrollState = rememberScrollState()
 
     Column(
@@ -69,6 +71,7 @@ fun HomeScreen(
             modifier = Modifier.padding(bottom = 48.dp)
         )
 
+        // UI buttons
         MenuButton(
             text = "Add Meals to DB",
             icon = painterResource(id = R.drawable.plus),

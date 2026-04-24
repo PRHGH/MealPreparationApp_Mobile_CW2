@@ -1,5 +1,8 @@
 package com.example.mealpreparationapp.model
 
+// This data class represents a Meal object as it is used throughout the application's UI.
+// used this 'Meal' class for UI and API logic, while 'MealEntity' is for Room Database persistence.
+// allows us to change the database schema without breaking the entire UI.
 data class Meal(
     val idMeal: String,
     val strMeal: String?,

@@ -1,5 +1,6 @@
 package com.example.mealpreparationapp
 
+// Room  SQLite abstraction
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -15,6 +16,7 @@ data class MealEntity(
     val strInstructions: String?,
     val strTags: String?,
     val strYoutube: String?,
+    // Task 6: Image URL
     val strMealThumb: String?,
 
     val strIngredient1: String?,

@@ -1,5 +1,6 @@
 package com.example.mealpreparationapp
 
+// Database Population
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,9 +42,11 @@ fun AddMealsScreen(
     mealDao: MealDao,
     onBackClick: () -> Unit
 ) {
+    // rememberSaveable = rotation safe
     var statusMessage by rememberSaveable { mutableStateOf("Ready to populate database") }
+    // Coroutine scope for async DB ops
     val scope = rememberCoroutineScope()
-    val themeColor = Color(0xFF4CAF50) // Matching "Add Meals" button color
+    val themeColor = Color(0xFF4CAF50)
 
     Column(
         modifier = Modifier
@@ -75,7 +78,7 @@ fun AddMealsScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Hero Icon Container
+
             Surface(
                 modifier = Modifier.size(120.dp),
                 shape = RoundedCornerShape(32.dp),
@@ -113,11 +116,13 @@ fun AddMealsScreen(
             Spacer(modifier = Modifier.height(48.dp))
             ElevatedButton(
                 onClick = {
+                    // Avoid UI blocking (coroutine)
                     scope.launch {
                         val mealsToInsert = MealSeedData.meals
                         if (mealsToInsert.isEmpty()) {
                             statusMessage = "No meals found to insert."
                         } else {
+                            // Room DB insert (Task 2)
                             mealDao.insertMeals(mealsToInsert)
                             statusMessage = "Success! ${mealsToInsert.size} meals added."
                         }
@@ -167,7 +172,6 @@ fun AddMealsScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Status Message Box
             Surface(
                 color = if (statusMessage.contains("Success")) 
                     Color(0xFFE8F5E9) else Color(0xFFF5F5F5),

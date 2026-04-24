@@ -1,5 +1,6 @@
 package com.example.mealpreparationapp
 
+// Activity recreated on rotation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +19,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Init Room DB
         db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
@@ -28,8 +30,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MealPreparationAppTheme {
+                // rememberSaveable = rotation safe
                 var currentScreen by rememberSaveable { mutableStateOf(AppScreen.HOME) }
 
+                // Compose Navigation logic
                 when (currentScreen) {
                     AppScreen.HOME -> HomeScreen(
                         onAddMealsClick = { currentScreen = AppScreen.ADD_MEALS },

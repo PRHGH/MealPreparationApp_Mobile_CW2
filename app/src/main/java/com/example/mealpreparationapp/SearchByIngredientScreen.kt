@@ -44,11 +44,14 @@ fun SearchByIngredientScreen(
     mealDao: MealDao,
     onBackClick: () -> Unit
 ) {
+    // rememberSaveable = rotation safe
     var ingredient by rememberSaveable { mutableStateOf("") }
     var statusMessage by rememberSaveable { mutableStateOf("Ready to search") }
+    // Preserve list on rotation
     var retrievedMeals by rememberSaveable(stateSaver = MealListSaver) {
         mutableStateOf(emptyList<Meal>())
     }
+    // Coroutine for async
     val scope = rememberCoroutineScope()
 
     Column(
@@ -112,8 +115,10 @@ fun SearchByIngredientScreen(
                 .padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            // Retrieve Button
             ElevatedButton(
                 onClick = {
+                    // Avoid UI blocking
                     scope.launch {
                         try {
                             val cleanIngredient = ingredient.trim()
@@ -122,6 +127,7 @@ fun SearchByIngredientScreen(
                                 retrievedMeals = emptyList()
                             } else {
                                 statusMessage = "Searching..."
+                                // API: ingredient -> IDs -> details
                                 val meals = MealApiService.searchMealsByIngredient(cleanIngredient)
                                 retrievedMeals = meals
                                 statusMessage = if (meals.isEmpty()) "No meals found" else "${meals.size} meals found"
@@ -144,14 +150,17 @@ fun SearchByIngredientScreen(
                 Text("Retrieve", fontWeight = FontWeight.Bold)
             }
 
+            // Save Button
             ElevatedButton(
                 onClick = {
+                    // Avoid UI blocking
                     scope.launch {
                         try {
                             if (retrievedMeals.isEmpty()) {
                                 statusMessage = "Nothing to save"
                             } else {
                                 val entities = retrievedMeals.map { it.toEntity() }
+                                // Room DB insert
                                 mealDao.insertMeals(entities)
                                 statusMessage = "Saved to DB!"
                             }
@@ -181,6 +190,7 @@ fun SearchByIngredientScreen(
             modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
         )
 
+        // Display list
         Column(
             modifier = Modifier
                 .weight(1f)

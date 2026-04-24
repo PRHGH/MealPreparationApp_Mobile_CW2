@@ -1,11 +1,13 @@
 package com.example.mealpreparationapp
 
+
 import org.json.JSONArray
 import org.json.JSONObject
 import com.example.mealpreparationapp.model.Meal
 
 object JsonParser {
 
+    // Extract Meal IDs
     fun parseMealIdsFromIngredientFilter(jsonText: String): List<String> {
         val result = mutableListOf<String>()
         val root = JSONObject(jsonText)
@@ -21,6 +23,7 @@ object JsonParser {
         return result
     }
 
+    // Parse one meal
     fun parseSingleMeal(jsonText: String): Meal? {
         val root = JSONObject(jsonText)
 
@@ -86,6 +89,7 @@ object JsonParser {
         )
     }
 
+    // Parse list
     fun parseMealsList(jsonText: String): List<Meal> {
         val result = mutableListOf<Meal>()
         val root = JSONObject(jsonText)

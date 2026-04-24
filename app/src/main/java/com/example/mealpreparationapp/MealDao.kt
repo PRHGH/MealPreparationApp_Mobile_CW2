@@ -8,15 +8,19 @@ import androidx.room.Query
 @Dao
 interface MealDao {
 
+    // Room DB insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeals(meals: List<MealEntity>)
 
+    // Room DB insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeal(meal: MealEntity)
 
+    // Retrieve all
     @Query("SELECT * FROM meals")
     suspend fun getAllMeals(): List<MealEntity>
 
+    // Local DB search by name or ingredient
     @Query("""
     SELECT * FROM meals
     WHERE 
